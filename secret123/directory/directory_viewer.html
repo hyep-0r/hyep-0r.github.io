@@ -1,0 +1,52 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Secret Directory Viewer</title>
+  <style>
+    body { font-family: sans-serif; background: #111; color: #eee; padding: 2em; }
+    a { color: #00f2ff; text-decoration: none; display: block; margin-bottom: 0.5em; }
+    a:hover { text-decoration: underline; }
+    h1 { color: #00f2ff; }
+    .container { max-width: 600px; margin: auto; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>📁 Secret Directory: /random/</h1>
+    <div id="file-list">Loading files...</div>
+    <p><a href="/logout.html">Logout</a></p>
+  </div>
+
+  <script>
+    fetch('/secret123/random/')
+      .then(response => response.text())
+      .then(html => {
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(html, 'text/html');
+        const links = [...doc.querySelectorAll('a')].filter(a =>
+          a.href && !a.href.endsWith('/') && !a.textContent.includes('Parent Directory')
+        );
+
+        const list = document.getElementById('file-list');
+        if (links.length === 0) {
+          list.innerHTML = '<p>No files found.</p>';
+          return;
+        }
+
+        list.innerHTML = '';
+        links.forEach(link => {
+          const a = document.createElement('a');
+          a.href = link.href;
+          a.textContent = link.textContent;
+          list.appendChild(a);
+        });
+      })
+      .catch(err => {
+        document.getElementById('file-list').innerHTML = 'Failed to load directory contents.';
+        console.error(err);
+      });
+  </script>
+</body>
+</html>
