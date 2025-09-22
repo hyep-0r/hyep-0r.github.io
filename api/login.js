@@ -15,7 +15,7 @@ export default async function handler(req, res) {
   const password = body.get("password");
 
   if (username === "admin" && password === "secret123") {
-    res.setHeader("Set-Cookie", "session=secret123; Path=/; HttpOnly");
+   res.setHeader("Set-Cookie", "session=secret123; Path=/; HttpOnly; SameSite=Strict");
     return res.redirect("/secret123");
   } else {
     return res.status(401).send("Invalid credentials");
