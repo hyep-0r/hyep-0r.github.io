@@ -1,0 +1,9 @@
+
+{
+  "rewrites": [
+    {
+      "source": "/secret123",
+      "destination": "/api/auth-check"
+    }
+  ]
+}
