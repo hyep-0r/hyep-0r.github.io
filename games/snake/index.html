@@ -23,21 +23,22 @@
 
   // Game loop
   function gameLoop() {
-    if (isGameOver()) {
-      alert(`Game Over! Your score: ${score}`);
-      location.reload()
-      return;
-    }
-
-    changingDirection = false;
-    setTimeout(() => {
-      clearCanvas();
-      drawFood();
-      moveSnake();
-      drawSnake();
-      gameLoop();
-    }, 100); // Adjust game speed here (milliseconds)
+  if (isGameOver()) {
+    alert(`Game Over! Your score: ${score}`);
+    setTimeout(() => location.reload(), 1000); // Reload after 1 second
+    return;
   }
+
+  changingDirection = false;
+  setTimeout(() => {
+    clearCanvas();
+    drawFood();
+    moveSnake();
+    drawSnake();
+    gameLoop();
+  }, 100);
+}
+
 
   function clearCanvas() {
     ctx.fillStyle = 'white';
